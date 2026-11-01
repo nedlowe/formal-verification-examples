@@ -1,0 +1,25 @@
+1. Split a $100.00 payment three ways
+  total    $100.00   weights [1, 1, 1]
+  allocate [$33.33, $33.33, $33.34]   sum $100.00
+  naive    [$33.33, $33.33, $33.33]   sum $99.99   <-- $0.01 lost
+
+2. Dividend of $1,234,567.89 over holdings of 5,000 / 12,500 / 82,500 shares
+  total    $1234567.89   weights [5000, 12500, 82500]
+  allocate [$61728.39, $154320.99, $1018518.51]   sum $1234567.89
+  naive    [$61728.39, $154320.98, $1018518.50]   sum $1234567.87   <-- $0.02 lost
+
+3. A fill of 1,001 shares across orders for 300 / 300 / 400
+  total    1001   weights [300, 300, 400]
+  allocate [300, 300, 401]   sum 1001
+  naive    [300, 300, 400]   sum 1000   <-- 1 lost
+
+4. A $99.99 fee pool over seven equal investors
+  total    $99.99   weights [1, 1, 1, 1, 1, 1, 1]
+  allocate [$14.28, $14.28, $14.29, $14.28, $14.29, $14.28, $14.29]   sum $99.99
+  naive    [$14.28, $14.28, $14.28, $14.28, $14.28, $14.28, $14.28]   sum $99.96   <-- $0.03 lost
+
+5. $5.00 over weights 0 / 1 / 2: the zero-weight account gets nothing
+  total    $5.00   weights [0, 1, 2]
+  allocate [$0.00, $1.66, $3.34]   sum $5.00
+  naive    [$0.00, $1.66, $3.33]   sum $4.99   <-- $0.01 lost
+

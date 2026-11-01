@@ -1,0 +1,6 @@
+# The rules an example proves are the human's to change. With branch
+# protection requiring code-owner review, an edit that weakens a law (rather
+# than proving it) cannot merge unreviewed.
+/bend-payment-allocation/LAWS.bend  @nedlowe
+/bend-payment-allocation/SPEC.bend  @nedlowe
+/.github/                           @nedlowe

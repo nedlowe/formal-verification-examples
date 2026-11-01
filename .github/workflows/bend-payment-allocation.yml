@@ -1,0 +1,61 @@
+name: bend-payment-allocation
+
+on:
+  push:
+    paths:
+      - 'bend-payment-allocation/**'
+      - '.github/workflows/bend-payment-allocation.yml'
+  pull_request:
+    paths:
+      - 'bend-payment-allocation/**'
+      - '.github/workflows/bend-payment-allocation.yml'
+  workflow_dispatch:
+
+env:
+  # Bend 2 at the commit the proofs were developed against (31 Oct 2026)
+  BEND_COMMIT: faeb02eaa164d532f4cf13f1a455cbebda56ac40
+
+jobs:
+  check:
+    name: proof gate, demo, mistakes, JS build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch Bend (pinned)
+        run: |
+          git init -q "$RUNNER_TEMP/bend"
+          cd "$RUNNER_TEMP/bend"
+          git remote add origin https://github.com/bendlang/bend.git
+          git fetch -q --depth 1 origin "$BEND_COMMIT"
+          git checkout -q FETCH_HEAD
+      - name: check.sh
+        run: BEND="bun $RUNNER_TEMP/bend/bend2/main.ts" ./bend-payment-allocation/check.sh
+
+  verdict:
+    # Re-checks the proofs with BendTT, Bend's small kernel proven sound in
+    # Lean. Non-blocking until it has been seen green.
+    name: BendTT verdict (Lean kernel)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Fetch Bend (pinned)
+        run: |
+          git init -q "$RUNNER_TEMP/bend"
+          cd "$RUNNER_TEMP/bend"
+          git remote add origin https://github.com/bendlang/bend.git
+          git fetch -q --depth 1 origin "$BEND_COMMIT"
+          git checkout -q FETCH_HEAD
+      - name: Install Lean 4.34.0
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain leanprover/lean4:v4.34.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: bend PROOF.bend --verdict
+        working-directory: bend-payment-allocation
+        run: bun "$RUNNER_TEMP/bend/bend2/main.ts" PROOF.bend --verdict
