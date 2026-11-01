@@ -4,7 +4,7 @@ Small, runnable proofs of concept of formal verification applied to real busines
 
 | Example | Language | What is proven |
 |---|---|---|
-| [`bend-payment-allocation`](bend-payment-allocation) | [Bend 2](https://github.com/bendlang/bend) | A pro-rata money split never loses or invents a cent, and keeps every share within a cent of exact. Edits that break either rule are blocked at commit. |
+| [`bend-payment-allocation`](bend-payment-allocation) | [Bend 2](https://github.com/bendlang/bend) | A pro-rata money split never loses or invents a cent, and keeps every share within a cent of exact. Edits that break either rule are blocked at commit. Includes a [tutorial](bend-payment-allocation/TUTORIAL.md) on Bend and the proofs. |
 
 ## Adding an example
 

@@ -4,6 +4,8 @@ This allocator splits an amount of money across accounts in proportion to their 
 
 It is written in [Bend 2](https://github.com/bendlang/bend), whose compiler won't accept a change to the code unless it comes with a mathematical proof that the rules below still hold. The question this proof of concept asks is whether that proof requirement is a workable commit gate for code that an AI agent edits.
 
+New to Bend? [`TUTORIAL.md`](TUTORIAL.md) explains the language and walks through every proof.
+
 ## The rules
 
 The rules live in [`LAWS.bend`](LAWS.bend). It is about 20 lines, written for a reviewer to read, and the AI never edits it:
@@ -121,6 +123,7 @@ That is roughly 9 lines of proof per line of code, on top of an existing lemma l
 
 | File | Owner | Role |
 |---|---|---|
+| `TUTORIAL.md` | anyone | How Bend works, and how each proof is built |
 | `LAWS.bend`, `SPEC.bend` | human | The rules, and the definitions they are written in |
 | `main.bend` | anyone | The allocator |
 | `PROOF.bend` | whoever edits `main.bend` | The proofs; must check before commit |
