@@ -105,7 +105,7 @@ Every step is one exact equation: `share × W + carry' = carry + weight × total
 - **The laws are about Bend's own definitions.** The proofs reason about `Nat` as Bend defines it in its Base library, where numbers are unbounded. The native and JavaScript builds swap in machine arithmetic, so you trust Bend's compiler to do that faithfully.
 - **Native numbers stop at 2⁴⁸ − 1, about 2.8 × 10¹⁴.** The intermediate value is `weight × total`, so, for example, $1bn in cents with weights up to 1,000 fits, while $10bn does not. Past the limit, the program halts with `a Nat past the largest immediate 2^48-1` (exit 1, or an exception in JavaScript). It never returns a wrong figure. There is no 64-bit integer type, which is the main thing to resolve before production use.
 - **Nothing about order.** Which account gets the extra cent depends on the order of the accounts, so this is not the "largest remainder" method. The method doesn't guarantee that a larger weight gets at least as much as a smaller one, and the laws don't claim it.
-- **`--verdict` was not run locally.** `bend PROOF.bend --verdict` re-checks the proofs with BendTT, a small kernel whose soundness is proven in Lean. It needs Lean 4.34.0, which wasn't available where this was built. CI runs it in a separate, non-blocking job.
+- **The proofs pass the strict check.** `bend PROOF.bend --verdict` re-checks them with BendTT, a small kernel whose soundness is proven in Lean, so the trusted base is that kernel rather than Bend's full checker. It needs Lean 4.34.0, so CI runs it as its own job, and it passes. You can run it locally once Lean is installed.
 - **Bend is young.** Bend 2 was released in September 2026, and Bend 1 code does not carry over.
 
 ## The cost of the proofs

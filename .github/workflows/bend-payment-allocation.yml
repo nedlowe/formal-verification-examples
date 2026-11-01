@@ -37,10 +37,9 @@ jobs:
 
   verdict:
     # Re-checks the proofs with BendTT, Bend's small kernel proven sound in
-    # Lean. Non-blocking until it has been seen green.
+    # Lean.
     name: BendTT verdict (Lean kernel)
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
